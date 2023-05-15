@@ -1,23 +1,42 @@
-// import * as basicLightbox from 'basiclightbox';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import css from './ImageFinder.module.css';
 
-const Modal = () => {
+export default class Modal extends Component {
+  static propTypes = {
+    url: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+  };
+  componentDidMount() {
+    window.addEventListener('keydown', this.clickEsc);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.clickEsc);
+  }
+
+  clickBackdrop = event => {
+    if (event.target === event.currentTarget) {
+      this.props.toggleModal();
+    }
+  };
+
+  clickEsc = event => {
+    if (event.code === 'Escape') {
+      this.props.toggleModal();
+    }
+  };
+
+  render() {
     return (
-        <div class="overlay">
-  <div class="modal">
-    <img src="" alt="" />
-  </div>
-</div>
-    )
-
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//         <p>
-//             Your first lightbox with just a few lines of code.
-//             Yes, it's really that simple.
-//         </p>
-//     </div>
-// `)
-
-// instance.show()
+      <div className={css.Overlay} onClick={this.clickBackdrop}>
+        <div className={css.Modal}>
+          <img src={this.props.url} alt="" />
+        </div>
+      </div>
+    );
+  }
+}
+Modal.propTypes = {
+  url: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
-export default Modal;
