@@ -15,6 +15,7 @@ class App extends Component {
   handleSubmitForm = data => {
     this.setState({
       photoName: data,
+      page: 1,
     });
   };
   toggleModal = () => {
